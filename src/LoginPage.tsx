@@ -1,23 +1,34 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
-
+import { Container, Row, Col, Card,  Button, InputGroup, FormControl } from 'react-bootstrap';
+import axios from 'axios';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 const navigate = useNavigate();
 
   const handleLogin = () => {
-    // Tutaj dodaj logikę weryfikacji loginu i hasła
-    // Na potrzeby przykładu używam prostego warunku
-    if (username === 'user' && password === 'password') {
-      // Jeżeli dane są poprawne, przekieruj na stronę Dashboard
-      navigate('/dashboard');
-    } else {
-      alert('Błędny login lub hasło');
-    }
-  }
+  
+    const data = {
+      email: email,
+      password: password
+    };
+
+      axios.post('http://localhost:8080/auth/login',data).then(response => {
+          console.log(response.data);
+          
+          // Obsłuż odpowiedź z serwera, jeśli to konieczne
+        })
+        .catch(error => {
+          console.error('Błąd podczas przesyłania żądania:', error);
+       
+          // Obsłuż błąd, jeśli to konieczne
+        });  
+    // Jeżeli dane są poprawne przekierować na stronę hoem
+  //   navigate('/');
+
+      }
 
   return (
     <section className="vh-100 gradient-custom">
@@ -31,19 +42,31 @@ const navigate = useNavigate();
                 <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
                 <p className="text-white-50 mb-5">Please enter your login and password!</p>
 
-                <Form.Group className="mb-4" controlId="typeEmailX">
-                  <Form.Control type="email" placeholder="Email" size="lg" />
-                  <Form.Label className="text-white">Email</Form.Label>
-                </Form.Group>
+                <InputGroup className="mb-4">
+                    <FormControl
+                      type="email"
+                      placeholder="Your Email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      aria-label="Your Email"
+                      aria-describedby="basic-addon1"
+                    />
+                  </InputGroup>
 
-                <Form.Group className="mb-4" controlId="typePasswordX">
-                  <Form.Control type="password" placeholder="Password" size="lg" />
-                  <Form.Label className="text-white">Password</Form.Label>
-                </Form.Group>
+                  <InputGroup className="mb-4">
+                    <FormControl
+                      type="password"
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      aria-label="Password"
+                      aria-describedby="basic-addon1"
+                    />
+                  </InputGroup>
 
                 <p className="small mb-5 pb-lg-2"><a className="text-white-50" href="#!">Forgot password?</a></p>
 
-                <Button variant="outline-light" size="lg">Login</Button>
+                <Button variant="outline-light" size="lg" onClick={handleLogin}>Login</Button>
                 
               </div>
 

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Card, Form, Button, InputGroup, FormControl } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, InputGroup, FormControl } from 'react-bootstrap';
 import axios from 'axios';
 
 const RegistrationPage = () => {
