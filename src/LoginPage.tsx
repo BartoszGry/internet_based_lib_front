@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card,  Button, InputGroup, FormControl } from 'react-bootstrap';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-const navigate = useNavigate();
 
   const handleLogin = () => {
   
@@ -14,24 +14,38 @@ const navigate = useNavigate();
       email: email,
       password: password
     };
+    if(email==""||password==""){
+      toast.error('Błąd logowania, wypełnij dane.');
+    }
+else{
 
       axios.post('http://localhost:8080/auth/login',data).then(response => {
           console.log(response.data);
-          
-          // Obsłuż odpowiedź z serwera, jeśli to konieczne
+        
+          if (response.data.jwt == "AuthenticationException") {
+              
+           toast.error('Błąd uwierzytelniania: Nieprawidłowy email lub hasło.');
+        } else {
+            
+            document.cookie = `jwt=${response.data.jwt}; path=/;`;
+            window.location.href = '/';
+        }
+
         })
         .catch(error => {
           console.error('Błąd podczas przesyłania żądania:', error);
        
-          // Obsłuż błąd, jeśli to konieczne
+         
         });  
-    // Jeżeli dane są poprawne przekierować na stronę hoem
-  //   navigate('/');
-
-      }
+  
+       
+      }}
 
   return (
     <section className="vh-100 gradient-custom">
+       <ToastContainer
+      position="bottom-center"
+    />
     <Container className="py-5 h-100">
       <Row className="d-flex justify-content-center align-items-center h-100">
         <Col xs={12} md={8} lg={6} xl={5}>
@@ -64,7 +78,7 @@ const navigate = useNavigate();
                     />
                   </InputGroup>
 
-                <p className="small mb-5 pb-lg-2"><a className="text-white-50" href="#!">Forgot password?</a></p>
+                <p className="small mb-5 pb-lg-2"><a className="text-white-50" href="/pass">Forgot password?</a></p>
 
                 <Button variant="outline-light" size="lg" onClick={handleLogin}>Login</Button>
                 

@@ -1,6 +1,13 @@
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Container, Row } from 'react-bootstrap';
 import React,{ useState } from 'react';
 import axios from 'axios';
+
+
+
+
+
+
+
 
 
 const NewsPanel = () => {
@@ -15,7 +22,6 @@ const NewsPanel = () => {
     setFile((e.target.files[0]));
 }
 
-
   const handleSubmit= () => {  
    
     if (!file) {
@@ -27,7 +33,7 @@ const NewsPanel = () => {
     formData.append('header', header);
     formData.append('text', text);
     formData.append('imageBytes', file);
-    axios.post('http://localhost:8080/libsys/api/news/add',formData).then(response => {
+    axios.post('http://localhost:8080/news/add',formData).then(response => {
       console.log(response.data);
       // Obsłuż odpowiedź z serwera, jeśli to konieczne
     })
@@ -38,6 +44,9 @@ const NewsPanel = () => {
   };
 
   return (
+  <section className="vh-100 gradient-custom">
+   <Container className="py-5 h-100">
+   <Row className="d-flex justify-content-center align-items-center h-100">
     <div className="mt-4 mx-5">
       <h2>News Panel</h2>
       <Form>
@@ -72,6 +81,9 @@ const NewsPanel = () => {
         </Button>
       </Form>
     </div>
+    </Row>
+    </Container>
+  </section>
   );
 };
 

@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Button, InputGroup, FormControl } from 'react-bootstrap';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RegistrationPage = () => {
   const [name, setName] = useState('');
@@ -9,35 +10,41 @@ const RegistrationPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const navigate = useNavigate();
 
   const handleRegister = () => {
-    // Tutaj dodaj logikę rejestracji
-    // Na potrzeby przykładu, sprawdzam, czy hasła się zgadzają
+    if(email==''||password==''||name==''||surname==''){
+      toast.error('Błąd logowania, wypełnij dane');
+    }
+    else{
     if (password === repeatPassword) {
-        const formData = new FormData();
-    formData.append('name', name);
-    formData.append('surname', surname);
-    formData.append('email', email);
-    formData.append('password', password);
-        axios.post('http://localhost:8080/libsys/users/register',formData).then(response => {
+      const data = {
+        // name:name,
+        // surname:surname,
+        email: email,
+        password: password
+      }
+        axios.post('http://localhost:8080/auth/register',data).then(response => {
             console.log(response.data);
-
-            // Obsłuż odpowiedź z serwera, jeśli to konieczne
+            toast.info('Registerded succesfully.');
+           
           })
           .catch(error => {
-            console.error('Błąd podczas przesyłania żądania:', error);
-            // Obsłuż błąd, jeśli to konieczne
+            
+            toast.error('Użutkownik z podanym emailem już istnieje');
           });  
       // Jeżeli dane są poprawne, możesz np. przekierować na stronę potwierdzenia rejestracji
     //   navigate('/registration-success');
     } else {
-      alert('Hasła nie zgadzają się');
+      toast.error('Hasła nie zgadzają się');
     }
-  }
+   
+  }}
 
   return (
     <section className="vh-100 gradient-custom">
+       <ToastContainer
+      position="bottom-center"
+    />
       <Container className="py-5 h-100">
         <Row className="d-flex justify-content-center align-items-center h-100">
           <Col xs={12} md={8} lg={6} xl={5}>
@@ -109,7 +116,6 @@ const RegistrationPage = () => {
                 <div>
                   <p className="mb-0">Already have an account? <a href="/login" className="text-white-50 fw-bold">Login</a></p>
                 </div>
-
               </Card.Body>
             </Card>
           </Col>
