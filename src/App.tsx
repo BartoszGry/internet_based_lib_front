@@ -20,7 +20,7 @@ const App = () => {
         <Route path="/admin" Component={AdminPanel} />
         <Route path="/admin/newspanel" Component={NewsPanel} />
         <Route path="/books/:bookId" Component={BookPage} />
-        <Route path="/search" Component={SearchPanel} />
+        <Route path="/search" element={<SearchPanel searchData={null} />} />
       </Routes>
     </Router>
   );

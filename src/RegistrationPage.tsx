@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Button, InputGroup, FormControl } from 'reac
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import NavbarCreate from './Navbar';
 
 const RegistrationPage = () => {
   const [name, setName] = useState('');
@@ -17,9 +18,9 @@ const RegistrationPage = () => {
     }
     else{
     if (password === repeatPassword) {
-      const data = {
-        // name:name,
+      // name:name,
         // surname:surname,
+      const data = {
         email: email,
         password: password
       }
@@ -29,6 +30,7 @@ const RegistrationPage = () => {
            
           })
           .catch(error => {
+            console.log(data);
             
             toast.error('Użutkownik z podanym emailem już istnieje');
           });  
@@ -45,6 +47,7 @@ const RegistrationPage = () => {
        <ToastContainer
       position="bottom-center"
     />
+    <NavbarCreate/>
       <Container className="py-5 h-100">
         <Row className="d-flex justify-content-center align-items-center h-100">
           <Col xs={12} md={8} lg={6} xl={5}>

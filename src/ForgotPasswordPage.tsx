@@ -1,6 +1,7 @@
 import  { useState } from 'react';
 import { Container, Row, Col, Card, InputGroup, FormControl, Button} from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
+import NavbarCreate from './Navbar';
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
@@ -16,6 +17,7 @@ const ForgotPasswordPage = () => {
   return (
     <section className="vh-100 gradient-custom">
       <ToastContainer position="bottom-center" />
+      <NavbarCreate/>
       <Container className="py-5 h-100">
         <Row className="d-flex justify-content-center align-items-center h-100">
           <Col xs={12} md={8} lg={6} xl={5}>

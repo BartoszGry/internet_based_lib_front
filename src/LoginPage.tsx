@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Container, Row, Col, Card,  Button, InputGroup, FormControl } from 'react-bootstrap';
+import { Container, Row, Col, Card,  Button, InputGroup, FormControl, Navbar } from 'react-bootstrap';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import NavbarCreate from './Navbar';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -46,6 +47,7 @@ else{
        <ToastContainer
       position="bottom-center"
     />
+    <NavbarCreate/>
     <Container className="py-5 h-100">
       <Row className="d-flex justify-content-center align-items-center h-100">
         <Col xs={12} md={8} lg={6} xl={5}>

@@ -1,36 +1,43 @@
-import React from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 import NewsTile from './NewsTile'; 
-import NavbarCreate from './Navbar';
-import Footer from './Footer';
+import { Link } from 'react-router-dom';
 
-const DefaultImagePath1 = "/images/default.jpg";
+
+const DefaultImagePath1 = "/images/noPhoto.png";
 
 const SearchPanel = ({ searchData }: { searchData: BibItem[] | null  }) => {
-  if (searchData === null) {
+  if (!searchData || searchData.length === 0) {
     
-    return <p>Nie znaleziono danych.</p>;
+    return<Container style={{ marginTop: '300px',marginBottom: '300px'}} >
+    <Row style={{ marginTop: '20px' }}>
+   
+      <Col lg={12} md={8} className="mb-4 mb-md-0">
+          <h1>No search result.</h1>
+          Check the spelling, try using a more general query, or remove applied filters.
+      </Col>
+  </Row>
+  </Container> 
   }
 
 
-    return (<div>
+    return (<Container>
         
-      <Row style={{ marginTop: '20px' }}>
-        <Col lg={3} md={6} className="mb-4 mb-md-0">
-          <NewsTile key={'1'} header={''} text={''} imageBytes={DefaultImagePath1} />
+        <Row style={{ marginTop: '20px'}} >
+      {searchData.map((item) => (
+        <Col lg={3} md={6} className="mb-4 mb-md-0" style={{ padding: '5px' }}>
+        <Link to={`/books/${item.id}`} style={{textDecoration:'none',color: 'inherit'}}>
+            <NewsTile
+              key={item.id}
+              header={item.title}
+              text={item.author}
+              imageBytes={DefaultImagePath1}
+            />
+          </Link>
         </Col>
-        <Col lg={3} md={6} className="mb-4 mb-md-0">
-          <NewsTile key={'2'} header={''} text={''} imageBytes={DefaultImagePath1} />
-        </Col>
-        <Col lg={3} md={6} className="mb-4 mb-md-0">
-          <NewsTile key={'3'} header={''} text={''} imageBytes={DefaultImagePath1} />
-        </Col>
-        <Col lg={3} md={6} className="mb-4 mb-md-0">
-          <NewsTile key={'4'} header={''} text={''} imageBytes={DefaultImagePath1} />
-        </Col>
-      </Row>
-      <Footer></Footer>
-      </div>
+      ))}
+    </Row>
+   
+      </Container>
     );
   };
   

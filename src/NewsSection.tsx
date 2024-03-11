@@ -2,6 +2,7 @@ import NewsTile from './NewsTile'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Col, Container, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 interface News {
   id: number;
@@ -56,33 +57,57 @@ const NewsSection = () => {
       <div>
             
 <Container className="p-4">
-<h1 className="display-1">Polecane przez nas</h1>
+<h1 className="display-1">Recomended</h1>
 <Row >
   <Col lg={3} md={6} className="mb-4 mb-md-0" style={{ padding: '5px' }}>
+  <Link to={`/books/2665013`} style={{textDecoration:'none',color: 'inherit'}}>
     <NewsTile key={'1'} header={'Wiatrołomy : (kronika jednego sezonu)'} text={''} imageBytes={DefaultImagePath1} />
+    </Link>
   </Col>
+  
   <Col lg={3} md={6} className="mb-4 mb-md-0" style={{ padding: '5px' }}>
+  <Link to={`/books/1362058`} style={{textDecoration:'none',color: 'inherit'}}>
     <NewsTile key={'2'} header={'Kamienne pszczoły'} text={''} imageBytes={DefaultImagePath2} />
+    </Link>
   </Col>
+
   <Col lg={3} md={6} className="mb-4 mb-md-0" style={{ padding: '5px' }}>
+  <Link to={`/books/1923066`} style={{textDecoration:'none',color: 'inherit'}}>
     <NewsTile key={'3'} header={'Podwójna należność'} text={''} imageBytes={DefaultImagePath3} />
+    </Link>
   </Col>
+
   <Col lg={3} md={6} className="mb-4 mb-md-0" style={{ padding: '5px' }}>
+  <Link to={`/books/3084126`} style={{textDecoration:'none',color: 'inherit'}}>
     <NewsTile key={'4'} header={'Gdynia, zima nad polskiem [!] morzem'} text={''} imageBytes={DefaultImagePath4} />
+    </Link>
   </Col>
 </Row>
+
+
 <Row >
   <Col lg={3} md={6} className="mb-4 mb-md-0" style={{ padding: '5px' }}>
+  <Link to={`/books/2409687`} style={{textDecoration:'none',color: 'inherit'}}>
     <NewsTile key={'1'} header={'Wybór poezji : 1914-1939'} text={''} imageBytes={DefaultImagePath5} />
+    </Link>
   </Col>
+  
   <Col lg={3} md={6} className="mb-4 mb-md-0" style={{ padding: '5px' }}>
+  <Link to={`/books/1201213`} style={{textDecoration:'none',color: 'inherit'}}>
     <NewsTile key={'2'} header={'Najpiękniejszy psi uśmiech i inne zwierzenia'} text={''} imageBytes={DefaultImagePath6} />
+    </Link>
   </Col>
+
   <Col lg={3} md={6} className="mb-4 mb-md-0" style={{ padding: '5px' }}>
+  <Link to={`/books/1565661`} style={{textDecoration:'none',color: 'inherit'}}>
     <NewsTile key={'3'} header={'Achmatowa czyli Kobieta'} text={''} imageBytes={DefaultImagePath7} />
+    </Link>
   </Col>
+
   <Col lg={3} md={6} className="mb-4 mb-md-0" style={{ padding: '5px' }}>
+  <Link to={`/books/1130769`} style={{textDecoration:'none',color: 'inherit'}}>
     <NewsTile key={'4'} header={'Tamten brzeg : wspomnienia i szkice'} text={''} imageBytes={DefaultImagePath8} />
+    </Link>
   </Col>
 </Row>
 

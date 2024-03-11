@@ -10,12 +10,13 @@ interface NewsTileProps {
 }
 const NewsTile:React.FC<NewsTileProps> = ({ header, text, imageBytes }) => {
   return (
-    <div className="container-fluid" style={{background:'white',height:'100%' }}><a href={text} style={{textDecoration:'none',color: 'inherit'}}>
+    <div className="container-fluid" style={{background:'white',height:'100%' }}>
+      <a href={text} style={{textDecoration:'none',color: 'inherit'}}>
       <Row>
         <Col>
       <img className="img-thumbnail" src={imageBytes} alt="News Image" />
       <div style={{ width: '250px', textOverflow: 'ellipsis' }}>
-            <h5 className="h5">{header}</h5>
+            <p><b>{header}</b></p>
           </div>
       
         </Col>

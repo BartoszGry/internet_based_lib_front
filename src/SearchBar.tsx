@@ -11,7 +11,7 @@ import SearchPanel from './SerchPanel';
 const SearchBar1 = () => {
 
   
-    const [selectedOption, setSelectedOption] = useState("Zbiory");
+    const [selectedOption, setSelectedOption] = useState("title");
     const [searchInput, setSearchInput] = useState("");
     const [showNewsSection, setShowNewsSection] = useState(true);
     const [responseData, setResponseData] = useState([]);
@@ -28,7 +28,7 @@ const SearchBar1 = () => {
 
     const handleSearch = () => {
       //const apiUrl ='http://localhost:8080/lib-internal/search?'+ selectedOption+'='+ searchInput;
-      const narodowaUrl= 'http://localhost:8080/lib-national/search?'+ selectedOption+'='+ searchInput;
+      const narodowaUrl= 'http://localhost:8080/lib-national/list-search?'+ selectedOption+'='+ searchInput;
       // axios.get(apiUrl).then(response => {
         
       //   console.log(response);
@@ -39,6 +39,7 @@ const SearchBar1 = () => {
       //   console.log(error);
       // });  
       axios.get(narodowaUrl).then(response => {
+
         
         setResponseData(response.data);
         setShowNewsSection(false);
@@ -53,13 +54,7 @@ const SearchBar1 = () => {
 
     
   
-    const handleHome = () => {
-      // Wykonaj akcje związane z powrotem do strony głównej
-      // ...
-  
-      // Ustaw stan, aby pokazać panel wyszukiwania i ukryć sekcję wiadomości
-      setShowNewsSection(false);
-    };
+ 
 
   return (
     <div>
@@ -83,14 +78,11 @@ const SearchBar1 = () => {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item eventKey="Zbiory">Zbiory</Dropdown.Item>
-        <Dropdown.Item eventKey="Przeszukuj treść">Przeszukuj treść</Dropdown.Item>
+        <Dropdown.Item eventKey="title">title</Dropdown.Item>
+        <Dropdown.Item eventKey="publicationYear"> publication year</Dropdown.Item>
         <Dropdown.Item eventKey="author">author</Dropdown.Item>
-        <Dropdown.Item eventKey="Projekty naukowe">Projekty naukowe</Dropdown.Item>
-        <Dropdown.Item eventKey="Naukowcy">Naukowcy</Dropdown.Item>
-        <Dropdown.Item eventKey="Wpisy blogowe">Wpisy blogowe</Dropdown.Item>
-        <Dropdown.Item eventKey="Kolekcje publiczne">Kolekcje publiczne</Dropdown.Item>
-        <Dropdown.Item eventKey="Notatki publiczne">Notatki publiczne</Dropdown.Item>
+        <Dropdown.Item eventKey="publisher">publisher</Dropdown.Item>
+        <Dropdown.Item eventKey="kind">kind</Dropdown.Item>
         <Dropdown.Item eventKey="Instytucje">Instytucje</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
