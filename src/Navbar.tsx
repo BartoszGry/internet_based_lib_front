@@ -7,14 +7,15 @@ import { useCookies } from 'react-cookie';
 
 function NavbarCreate() {
 
-  const [cookies, setCookie, removeCookie] = useCookies(['jwt']); 
-
+  const [cookies1, setCookie1, removeCookie1] = useCookies(['jwt']); 
+  const [cookies2, setCookie2, removeCookie2] = useCookies(['email']); 
   const handleLogout = () => {
-    const jwtCookie = cookies.jwt; 
-
+    const jwtCookie = cookies1.jwt; 
+    
     if (jwtCookie) {
       
-      removeCookie('jwt', { path: '/' });
+      removeCookie1('jwt', { path: '/' });
+      removeCookie2('email', { path: '/' });
       toast.success('Logout successful!')
 
     } else {
@@ -31,23 +32,24 @@ function NavbarCreate() {
       <ToastContainer
       position="bottom-center"
     />
-        <Navbar.Brand href="#home" className="h1">System biblioteki</Navbar.Brand>
+        <Navbar.Brand href="/" className="h1">System biblioteki</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/login">Login</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item onClick={handleLogout}>Loguout</NavDropdown.Item>
-              <NavDropdown.Item href="/registration">
-                Register
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
+            
+
+             {cookies2.email ? (
+              <NavDropdown title={cookies2.email} id="basic-nav-dropdown">
+                <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <Nav.Link href="/login">Login</Nav.Link>
+            )}
+
           </Nav>
         </Navbar.Collapse>
       </Container>

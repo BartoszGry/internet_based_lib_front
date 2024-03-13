@@ -1,4 +1,3 @@
-import React from 'react';
 import QRCode from 'qrcode.react';
 import { useCookies } from 'react-cookie';
 

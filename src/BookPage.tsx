@@ -6,13 +6,15 @@ import{Link, useParams} from "react-router-dom"
 import axios from 'axios';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import MyQRCodeComponent from './MyQRCodeComponent';
+import { useCookies } from 'react-cookie';
+
 
 const BookPage = () => {
 
   const { bookId } = useParams();
   const [bookData, setBookData] = useState<BibItem | null>(null);
   const [showQRCode, setShowQRCode] = useState(false);
-
+  const [cookies] = useCookies(['email']); 
 
 useEffect(() => {
   const fetchData = async () => {
@@ -51,7 +53,14 @@ const handleUseQRCode = () => {
 const handleHideQRCode = () => {
   setShowQRCode(false);
 };
-
+const formatDate = (dateString:string) => {
+  const options = {
+    year: 'numeric' as const,
+    month: 'long' as const
+  };
+  const formattedDate = new Date(dateString).toLocaleDateString(undefined, options);
+  return formattedDate; 
+};
 
   return (
     <div>
@@ -79,7 +88,7 @@ const handleHideQRCode = () => {
       <Row>
         <Col>
           <p style={{ color: '#66748e', marginBottom: '0' }}>Creation date:</p>
-          <p style={{ marginLeft: '10px', marginTop: '0' }}>{bookData.createdDate}</p>
+          <p style={{ marginLeft: '10px', marginTop: '0' }}>{formatDate(bookData.createdDate)}</p>
         </Col>
         <Col>
           <p style={{ color: '#66748e', marginBottom: '0' }}>Language:</p>
@@ -104,17 +113,29 @@ const handleHideQRCode = () => {
       <Row>
         <Col className="d-flex justify-content-center">
       
-      {showQRCode ? (
-        <div>
-        <MyQRCodeComponent/>
-        <Button onClick={handleHideQRCode}>Hide QR Code</Button>
-        <Button>Rent</Button>
-        </div>
-      ) : (<div>
-        <Button onClick={handleUseQRCode}>Use QR code</Button>
-        <Button>Rent</Button>
-        </div>
-      )}
+     
+        {cookies.email ? (
+      <div>
+        {showQRCode ? (
+          <div>
+            <MyQRCodeComponent />
+            <Button onClick={handleHideQRCode}>Hide QR Code</Button>
+            <Button>Rent</Button>
+          </div>
+        ) : (
+          <div>
+            <Button onClick={handleUseQRCode}>Use QR code</Button>
+            <Button>Rent</Button>
+          </div>
+        )}
+      </div>
+    ) : (
+      <div>
+        <Link to="/login">
+          <Button>Login to rent book</Button>
+        </Link>
+      </div>
+    )}
       
       </Col>
         </Row>

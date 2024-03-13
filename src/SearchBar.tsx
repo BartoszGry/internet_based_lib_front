@@ -6,6 +6,7 @@ import NavbarCreate from './Navbar';
 import Footer from './Footer';
 import NewsSection from './NewsSection';
 import SearchPanel from './SerchPanel';
+import { toast } from 'react-toastify';
 
 
 const SearchBar1 = () => {
@@ -15,6 +16,7 @@ const SearchBar1 = () => {
     const [searchInput, setSearchInput] = useState("");
     const [showNewsSection, setShowNewsSection] = useState(true);
     const [responseData, setResponseData] = useState([]);
+    const [internalResponseData, setInternalResponseData] = useState([]);
 
     const handleSelect = (eventKey: string | null) => {
       if (eventKey) {
@@ -27,17 +29,17 @@ const SearchBar1 = () => {
     };
 
     const handleSearch = () => {
-      //const apiUrl ='http://localhost:8080/lib-internal/search?'+ selectedOption+'='+ searchInput;
+      const apiUrl ='http://localhost:8080/lib-internal/search?'+ selectedOption+'='+ searchInput;
       const narodowaUrl= 'http://localhost:8080/lib-national/list-search?'+ selectedOption+'='+ searchInput;
-      // axios.get(apiUrl).then(response => {
+      axios.get(apiUrl).then(response => {
         
-      //   console.log(response);
+        console.log(response.data);
       
-      // })
-      // .catch(error => {
+      })
+      .catch(error => {
         
-      //   console.log(error);
-      // });  
+        console.log(error);
+      });  
       axios.get(narodowaUrl).then(response => {
 
         
@@ -45,7 +47,7 @@ const SearchBar1 = () => {
         setShowNewsSection(false);
       })
       .catch(error => {
-        
+        toast.error('Error occured, try other parameters.')
         console.log(error);
       }); 
       

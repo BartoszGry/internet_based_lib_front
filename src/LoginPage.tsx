@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, Row, Col, Card,  Button, InputGroup, FormControl, Navbar } from 'react-bootstrap';
+import { Container, Row, Col, Card,  Button, InputGroup, FormControl } from 'react-bootstrap';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,6 +28,7 @@ else{
            toast.error('Błąd uwierzytelniania: Nieprawidłowy email lub hasło.');
         } else {
             
+            document.cookie=`email=${response.data.user.email}; path=/;`;
             document.cookie = `jwt=${response.data.jwt}; path=/;`;
             window.location.href = '/';
         }

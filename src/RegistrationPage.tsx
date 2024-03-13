@@ -26,6 +26,7 @@ const RegistrationPage = () => {
       }
         axios.post('http://localhost:8080/auth/register',data).then(response => {
             console.log(response.data);
+            
             toast.info('Registerded succesfully.');
            
           })

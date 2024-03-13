@@ -1,6 +1,4 @@
 import NewsTile from './NewsTile'
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
@@ -13,8 +11,8 @@ interface News {
 
 
 const NewsSection = () => {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [newsList, setNewsList] = useState<News[]>([]);
+ 
+  
   const DefaultImagePath1 = "/images/default.jpg";
   const DefaultImagePath2 = "/images/default (1).jpg";
   const DefaultImagePath3 = "/images/default (2).jpg";
@@ -25,34 +23,7 @@ const NewsSection = () => {
   const DefaultImagePath8 = "/images/default (7).jpg";
 
 
-  useEffect(() => {
-
-
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-   
-    const fetchNewsList = () => {
-      axios.get('http://localhost:8080/news/all')
-        .then(response => {
-          console.log(response.data)
-          setNewsList(response.data);
-        })
-        .catch(error => {
-          console.error('Błąd podczas pobierania listy newsów:', error);
-        });}
-        fetchNewsList();
-
-
-    // Clean up the event listener when the component unmounts
-    return () => {
-
-
-      window.removeEventListener('resize', handleResize);
-    };  
-  }, []);
+  
     return (
       <div>
             
