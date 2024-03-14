@@ -7,6 +7,8 @@ import axios from 'axios';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import MyQRCodeComponent from './MyQRCodeComponent';
 import { useCookies } from 'react-cookie';
+import RentalRecord from './RentalRecord';
+import {  toast } from 'react-toastify';
 
 
 const BookPage = () => {
@@ -14,7 +16,28 @@ const BookPage = () => {
   const { bookId } = useParams();
   const [bookData, setBookData] = useState<BibItem | null>(null);
   const [showQRCode, setShowQRCode] = useState(false);
-  const [cookies] = useCookies(['email']); 
+  const [rentalRecords, setRentalRecords] = useState<RentalRecord[]>([]);
+  const [cookies1] = useCookies(['email']); 
+  const [cookies2] = useCookies(['jwt']);
+  const [cookies3] = useCookies(['id']);
+  const jwtToken = cookies2.jwt;
+  
+  
+  
+  const fetchRentalData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/rent/user/${cookies3.id}`, {
+        headers: {
+          Authorization: `Bearer ${cookies2.jwt}`,
+        },
+      });
+  
+      setRentalRecords(response.data);
+    } catch (error) {
+      console.error('Error fetching rental records:', error);
+      // Handle errors if needed
+    }
+  };
 
 useEffect(() => {
   const fetchData = async () => {
@@ -31,8 +54,13 @@ console.log(bookData);
     }
   };
 
+  
+  
+
   fetchData();
-}, [bookId]);
+  fetchRentalData();
+
+}, [bookId, cookies3.id, cookies2.jwt]);
 
 if (!bookData) {
   return(
@@ -46,13 +74,21 @@ if (!bookData) {
   </div>
  )
 }
+
+
+
+
 const handleUseQRCode = () => {
   
   setShowQRCode(true);
 };
+
+
 const handleHideQRCode = () => {
   setShowQRCode(false);
 };
+
+
 const formatDate = (dateString:string) => {
   const options = {
     year: 'numeric' as const,
@@ -62,11 +98,52 @@ const formatDate = (dateString:string) => {
   return formattedDate; 
 };
 
+const isBookAlreadyRented = () => {
+  return rentalRecords.some(record => record.bookId === Number(bookId));
+};
+
+const getFirstRentalRecordForBook = () => {
+  return rentalRecords.find(record => record.bookId === Number(bookId)) || null;
+};
+
+
+//tu jescze do poprawy---------------------------------------------------------------------------------------------------------------
+const handleRentButtonClick = async () => {
+  try {
+    const response = await axios.post(
+      'http://localhost:8080/rent/create',
+      {
+        clientId: cookies3.id,
+        bibsItemId: bookId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      }
+    );
+    toast.success('Item rented successfully!');
+    
+    
+    fetchRentalData();
+    
+    
+    isBookAlreadyRented();
+
+    
+  } catch (error) {
+    console.error('Error renting item:', error);
+    // Tutaj możesz obsłużyć błędy, jeśli to konieczne
+  }
+};
+//tu jescze do poprawy---------------------------------------------------------------------------------------------------------------
+
+const firstRentalRecordForBook = getFirstRentalRecordForBook();
   return (
     <div>
       <NavbarCreate />
      
-    <Container style={{marginTop:'50px'}}>
+    <Container style={{marginTop:'50px', marginBottom:'50px'}}>
     <Row className='custom-white'>
       <Col><h2>{bookData.title}</h2></Col>
     </Row>
@@ -113,33 +190,67 @@ const formatDate = (dateString:string) => {
       <Row>
         <Col className="d-flex justify-content-center">
       
-     
-        {cookies.email ? (
-      <div>
-        {showQRCode ? (
-          <div>
-            <MyQRCodeComponent />
-            <Button onClick={handleHideQRCode}>Hide QR Code</Button>
-            <Button>Rent</Button>
-          </div>
+         {/* Warunek sprawdzający, czy książka jest już wypożyczona */}
+      {isBookAlreadyRented() ? (
+        <div>
+          
+          {/* Wyświetlenie danych wypożyczenia */}
+          <h2>This book is already rented:</h2>
+          {firstRentalRecordForBook ? (
+          <Row className='custom-white'>
+            <Col>
+            <p style={{ color: '#66748e', marginBottom: '0' }}>Author:</p>
+            <p style={{ marginLeft: '10px', marginTop: '0' }}>{firstRentalRecordForBook.author}</p>
+
+            <p style={{ color: '#66748e', marginBottom: '0' }}>Title:</p>
+            <p style={{ marginLeft: '10px', marginTop: '0' }}>{firstRentalRecordForBook.title}</p>
+
+            <p style={{ color: '#66748e', marginBottom: '0' }}>Rental Date:</p>
+            <p style={{ marginLeft: '10px', marginTop: '0' }}>{firstRentalRecordForBook.rentalDate}</p>
+
+            <p style={{ color: '#66748e', marginBottom: '0' }}>Expire Date:</p>
+            <p style={{ marginLeft: '10px', marginTop: '0' }}>{firstRentalRecordForBook.expireDate}</p>
+            
+            </Col>
+          </Row>
         ) : (
-          <div>
-            <Button onClick={handleUseQRCode}>Use QR code</Button>
-            <Button>Rent</Button>
-          </div>
+          <p>No rental records found for this book.</p>
         )}
-      </div>
-    ) : (
-      <div>
-        <Link to="/login">
-          <Button>Login to rent book</Button>
-        </Link>
-      </div>
-    )}
+        </div>
+      ) : (
+        <div>
+          {/* Przyciski do wypożyczenia i QR Code */}
+          {cookies1.email ? (
+            <div>
+              {showQRCode ? (
+                <div>
+                  <MyQRCodeComponent />
+                  <Button onClick={handleHideQRCode}>Hide QR Code</Button>
+                </div>
+              ) : (
+                <div>
+                  <Button onClick={handleUseQRCode}>Use QR code</Button>
+                  <Button onClick={handleRentButtonClick}>Rent</Button>
+                  <div style={{ height: '120px' }}></div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div>
+              {/* Przekierowanie do strony logowania, jeśli użytkownik nie jest zalogowany */}
+              <Link to="/login">
+                <Button>Login to rent book</Button>
+              </Link>
+              <div style={{ height: '120px' }}></div>
+            </div>
+          )}
+        </div>
+      )}
       
       </Col>
         </Row>
       </Container>
+      
       <Footer/>
       </div>
     

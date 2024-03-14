@@ -14,7 +14,7 @@ const RegistrationPage = () => {
 
   const handleRegister = () => {
     if(email==''||password==''||name==''||surname==''){
-      toast.error('Błąd logowania, wypełnij dane');
+      toast.error('Login error, please fill in the required information.');
     }
     else{
     if (password === repeatPassword) {
@@ -33,12 +33,12 @@ const RegistrationPage = () => {
           .catch(error => {
             console.log(data);
             
-            toast.error('Użutkownik z podanym emailem już istnieje');
+            toast.error('The user with the provided email already exists.');
           });  
       // Jeżeli dane są poprawne, możesz np. przekierować na stronę potwierdzenia rejestracji
     //   navigate('/registration-success');
     } else {
-      toast.error('Hasła nie zgadzają się');
+      toast.error('The passwords do not match.');
     }
    
   }}

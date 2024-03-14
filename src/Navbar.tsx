@@ -42,9 +42,8 @@ function NavbarCreate() {
              {cookies2.email ? (
               <NavDropdown title={cookies2.email} id="basic-nav-dropdown">
                 <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                <NavDropdown.Item href="/rentals">Your rentals</NavDropdown.Item>
               </NavDropdown>
             ) : (
               <Nav.Link href="/login">Login</Nav.Link>

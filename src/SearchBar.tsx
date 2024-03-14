@@ -85,7 +85,6 @@ const SearchBar1 = () => {
         <Dropdown.Item eventKey="author">author</Dropdown.Item>
         <Dropdown.Item eventKey="publisher">publisher</Dropdown.Item>
         <Dropdown.Item eventKey="kind">kind</Dropdown.Item>
-        <Dropdown.Item eventKey="Instytucje">Instytucje</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
     </div>

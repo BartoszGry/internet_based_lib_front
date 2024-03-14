@@ -8,6 +8,7 @@ import RegistrationPage from './RegistrationPage';
 import ForgotPasswordPage from './ForgotPasswordPage';
 import BookPage from './BookPage';
 import SearchPanel from './SerchPanel';
+import RentalPanel from './RentalPanel';
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/admin/newspanel" Component={NewsPanel} />
         <Route path="/books/:bookId" Component={BookPage} />
         <Route path="/search" element={<SearchPanel searchData={null} />} />
+        <Route path="/rentals" Component={RentalPanel} />
       </Routes>
     </Router>
   );

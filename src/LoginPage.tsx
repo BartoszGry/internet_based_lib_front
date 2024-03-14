@@ -27,7 +27,7 @@ else{
               
            toast.error('Błąd uwierzytelniania: Nieprawidłowy email lub hasło.');
         } else {
-            
+            document.cookie=`id=${response.data.user.id}; path=/;`;
             document.cookie=`email=${response.data.user.email}; path=/;`;
             document.cookie = `jwt=${response.data.jwt}; path=/;`;
             window.location.href = '/';
